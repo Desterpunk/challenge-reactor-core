@@ -1,5 +1,6 @@
 package com.example.demo;
 
+import com.example.demo.model.Player;
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvException;
 
@@ -27,11 +28,10 @@ public class CsvUtilFile {
                     Integer.parseInt(strings[6].trim()),
                     strings[7]
             )));
-
            return list;
-
         } catch (IOException | CsvException e) {
             throw new IllegalArgumentException(e.getMessage());
         }
     }
+
 }
