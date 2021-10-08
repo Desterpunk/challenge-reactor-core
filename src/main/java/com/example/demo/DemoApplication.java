@@ -8,7 +8,9 @@ import org.springframework.data.mongodb.repository.config.EnableReactiveMongoRep
 @SpringBootApplication
 @EnableReactiveMongoRepositories(basePackageClasses = PlayerRepository.class)
 public class DemoApplication {
+
 	public static void main(String[] args) {
 		SpringApplication.run(DemoApplication.class, args);
 	}
+
 }
