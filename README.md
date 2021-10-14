@@ -14,4 +14,4 @@ Leer las pruebas unitarias.
 - Trabajo directamente los desde una base de datos reactiva y objserva la rendimiento
 - Prueba de concurencia con JMeter, donde vamos a colocar 100 hilos de ejeucución para observar los comportamientos de cada servicio
 
-#http://localhost:8080/test/players
+http://localhost:8080/listMongo
