@@ -2,7 +2,10 @@ package com.example.demo;
 
 import com.example.demo.model.Player;
 import com.example.demo.model.Player;
+import com.example.demo.service.PlayerService;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -15,8 +18,11 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+@SpringBootTest
 public class CSVUtilTest {
 
+    @Autowired
+    private PlayerService playerService;
     @Test
     void converterData(){
         List<Player> list = CsvUtilFile.getPlayers();
@@ -63,6 +69,17 @@ public class CSVUtilTest {
         assert listFilter.block().size() == 322;
     }
 
-
-
+    @Test
+    void reactive_filtrarJugadoresNacioanlidad() {
+        List<Player> list = CsvUtilFile.getPlayers();
+        Flux<Player> listFlux = Flux.fromStream(list.parallelStream()).cache();
+        Mono<Map<String, Collection<Player>>> listFilter = listFlux
+                .sort((player, player1) -> Math.max(player.getWinners(), player1.getWinners()))
+                .buffer(100)
+                .flatMap(playerA -> listFlux
+                        .filter(playerB -> playerA.stream()
+                                .anyMatch(a -> a.national.equals(playerB.national))))
+                .distinct()
+                .collectMultimap(Player::getNational);
+    }
 }
